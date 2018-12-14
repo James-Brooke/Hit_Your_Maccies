@@ -29,4 +29,4 @@ with open(r"C:\Users\James\Documents\IIFYM\If_it_fits_your_maccies/Nutrition.csv
         )
         db_row.save()
 
-Food.objects.all()
+#Food.objects.all() #Query Food table
