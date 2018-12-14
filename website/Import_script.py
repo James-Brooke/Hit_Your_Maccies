@@ -27,5 +27,6 @@ with open(r"C:\Users\James\Documents\IIFYM\If_it_fits_your_maccies/Nutrition.csv
         pro = row[10],
         category = row[11]
         )
+        db_row.save()
 
-Food(1, name='cb', cal=20)
+Food.objects.all()
