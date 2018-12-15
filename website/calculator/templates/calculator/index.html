@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 
 <html lang="en">
@@ -7,7 +9,7 @@
   <title>If it fits your maccies</title>
   <meta name="description" content="If it fits your maccies">
   <meta name="JBMS" content="">
-  <link rel="stylesheet" href="./style/style.css">
+  <link rel="stylesheet", type="text/css", href="{% static 'calculator/style.css' %}">
 </head>
 
 <body>
@@ -56,7 +58,7 @@
 
 
 <div>
-  <img src = "./images/fries.jpg", class="centre">
+  <img src = "{% static 'calculator/images/fries.jpg' %}", class="centre">
 </div>
 
 
