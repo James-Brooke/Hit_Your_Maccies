@@ -42,3 +42,17 @@
     bottom: 0px;
     margin-bottom: 0px;
 }
+
+table {
+  border-collapse: collapse;
+  width: 75%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+tr:hover {background-color: darkgray;}
