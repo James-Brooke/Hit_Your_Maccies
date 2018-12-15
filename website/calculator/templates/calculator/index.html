@@ -1,0 +1,64 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>If it fits your maccies</title>
+  <meta name="description" content="If it fits your maccies">
+  <meta name="JBMS" content="">
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+    <!--JavaScript here
+  <script src=""></script>
+    -->
+  <div class="topnav">
+      <a class="active" href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+  </div>
+
+  <div>
+    <table>
+        <tr>
+            <th>Menu item</th>
+            <th>Calories</th>
+            <th>Fat</th>
+            <th>Saturated fat</th>
+            <th>Trans fat</th>
+            <th>Cholesterol</th>
+            <th>Salt</th>
+            <th>Carbohydrates</th>
+            <th>Sugar</th>
+            <th>Protein</th>
+            <th>Category</th>
+        </tr>
+        {% for item in foods %}
+        <tr> 
+            <td>{{ item.name }}</td>
+            <td>{{ item.cal }}</td>
+            <td>{{ item.fat }}</td>
+            <td>{{ item.sfat }}</td>
+            <td>{{ item.tfat }}</td>
+            <td>{{ item.chol }}</td>
+            <td>{{ item.salt }}</td>
+            <td>{{ item.carb }}</td>
+            <td>{{ item.fbr }}</td>
+            <td>{{ item.sgr }}</td>
+            <td>{{ item.pro }}</td>
+            <td>{{ item.category }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+  </div>
+
+
+<div>
+  <img src = "./images/fries.jpg", class="centre">
+</div>
+
+
+</body>
+</html>
