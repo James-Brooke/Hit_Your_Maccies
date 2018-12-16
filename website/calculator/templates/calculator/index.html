@@ -1,26 +1,6 @@
-{% load static %}
+{% extends 'calculator/base.html' %}
 
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title>If it fits your maccies</title>
-  <meta name="description" content="If it fits your maccies">
-  <meta name="JBMS" content="">
-  <link rel="stylesheet", type="text/css", href="{% static 'calculator/style.css' %}">
-</head>
-
-<body>
-    <!--JavaScript here
-  <script src=""></script>
-    -->
-  <div class="topnav">
-      <a class="active" href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-  </div>
+{% block content %}
 
     {% if get %}
     <p>How many grams of protein do you need? The most calorific thing on the menu is:</p>
@@ -68,11 +48,4 @@
     <button type="submit">Submit</button>
   </form>
 
-
-<div>
-  <img src = "{% static 'calculator/images/fries.jpg' %}", class="centre">
-</div>
-
-
-</body>
-</html>
+  {% endblock %}
