@@ -52,11 +52,15 @@ table, th, td {
   border: 1px solid black;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 5%;
+  margin-top: 1%;
 }
 tr:nth-child(even) {background-color: #f2f2f2;}
 tr:hover {background-color: darkgray;}
 
 img {
-  z-index:-5
+  z-index:-5;
+}
+
+form {
+  margin-top: 1%;
 }
