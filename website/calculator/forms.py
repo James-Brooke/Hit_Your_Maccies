@@ -6,8 +6,8 @@ class CalcuFilter(ModelForm):
 
     CATEGORIES = (
         ('ALL', 'ANY'),
-        ('CHI', 'CHICKEN'),
-        ('BUR', 'BURGER')
+        ('CHICKEN', 'Chicken'),
+        ('BURGER', 'Beef')
     )
 
     category = forms.ChoiceField(choices=CATEGORIES, required=False)
@@ -17,5 +17,5 @@ class CalcuFilter(ModelForm):
         model = Food
         fields = ['pro', 'category']
         labels = {
-            'pro': 'How many grams of protein do you need?   ',
+            'pro': "How many grams of protein do you need?  ",
         }

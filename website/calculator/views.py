@@ -10,8 +10,12 @@ def index(request):
     if request.method == 'POST':
         get = False
         protein = request.POST['pro']
-
+        category = request.POST['category']
         foods = Food.objects.filter(pro__gte=protein).order_by('pro')
+
+        if category != 'ALL':
+            foods = foods.filter(category=category)
+
         form = CalcuFilter(request.POST)
 
         if form.is_valid():
