@@ -5,4 +5,7 @@ class CalcuFilter(ModelForm):
 
     class Meta:
         model = Food
-        fields = ['cal']
+        fields = ['pro']
+        labels = {
+            'pro': ('How many grams of protein do you need?'),
+        }

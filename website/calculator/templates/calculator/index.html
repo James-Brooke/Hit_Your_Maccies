@@ -22,6 +22,10 @@
       <a href="#contact">Contact</a>
   </div>
 
+    {% if get %}
+    <p>How many grams of protein do you need? The most calorific thing on the menu is:</p>
+    {% endif %}
+
   <div style="overflow-x:auto;">
     <table id="t01">
         <tr>
@@ -63,6 +67,7 @@
     {{ form }}
     <button type="submit">Submit</button>
   </form>
+
 
 <div>
   <img src = "{% static 'calculator/images/fries.jpg' %}", class="centre">
