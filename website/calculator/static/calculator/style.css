@@ -2,6 +2,13 @@
 .topnav {
   background-color: #dd1021;
   overflow: hidden;
+  position: fixed; 
+  top: 0; 
+  width: 100%; 
+}
+
+.main {
+  margin-top: 60px;
 }
 
 /* Style the links inside the navigation bar */
@@ -11,7 +18,6 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 17px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 24px; 
   font-style: normal; 
@@ -46,6 +52,8 @@
 table {
   border-collapse: collapse;
   width: 75%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px; 
 }
 
 table, th, td {
@@ -63,4 +71,11 @@ img {
 
 form {
   margin-top: 1%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px; 
+}
+
+p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px; 
 }
