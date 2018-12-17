@@ -3,18 +3,37 @@ from django.http import HttpResponse
 from .models import Food
 from .forms import CalcuFilter
 
-def index(request):
 
-    protein = None
+def process_food(food, protein_required):
+    
+    protein = float(food.pro)
+    if protein < 0.01:
+        return 0
+
+    if protein > protein_required:
+        quantity = 1 
+    else:
+        quantity = int(protein_required / protein)
+
+    return quantity
+
+
+
+def index(request):
 
     if request.method == 'POST':
         get = False
         protein = request.POST['pro']
         category = request.POST['category']
-        foods = Food.objects.filter(pro__gte=protein).order_by('pro')
-
+        foods = Food.objects.order_by('pro')
         if category != 'ALL':
             foods = foods.filter(category=category)
+
+        foods = list(foods) # force evaluation of queryset to allow extra attributes to be set
+        for food in foods:
+            food.quantity = process_food(food, float(protein))
+
+
 
         form = CalcuFilter(request.POST)
 
@@ -31,8 +50,7 @@ def index(request):
     context = {'foods': foods,
                 'form': form,
                 'get': get}
-    if protein:
-        context['protein'] = protein
+
     
     
 
