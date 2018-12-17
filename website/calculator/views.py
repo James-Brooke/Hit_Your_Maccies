@@ -29,9 +29,10 @@ def index(request):
         foods = list(foods) # force evaluation of queryset to allow extra attributes to be set
         for food in foods:
             food.quantity = process_food(food, protein) # calculate how many of this item to hit requirements
+            food.total_protein = food.pro * food.quantity
         foods[:] = [x for x in foods if (x.quantity * x.pro <= (protein+10))] # remove items with excessive macros
-
-
+        foods[:] = sorted(foods, key=lambda x: x.total_protein)
+    
         form = CalcuFilter(request.POST)
 
         if form.is_valid():
