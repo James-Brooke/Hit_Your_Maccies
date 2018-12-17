@@ -7,46 +7,49 @@
         <p>How many grams of protein do you need? The most calorific thing on the menu is:</p>
     {% else %}
         {% if best.quantity > 1 %}
-            <p class="summary">Your best option is to order {{ best.quantity }} of {{ best.name }}.</p>
+            <p class="summary">In order to get <b>{{ protein }}g</b> of protein, your best option is to order {{ best.quantity }} of {{ best.name }}.</p>
         {% else %}
-            <p class="summary">Your best option is to order 1 {{ best.name }}.</p>
+            <p class="summary">In order to get <b>{{ protein }}g</b> of protein, your best option is to order 1 {{ best.name }}.</p>
         {% endif %}
         <p class="summary">That will get you a total of:</p>
         <table class ="SummaryTable">
                 <tr> 
-                    <td>protein</td>
+                    <td>Protein</td>
                     <td>{{ best.pro }}g</td>
                 </tr>
                 <tr> 
-                    <td>calories</td>
+                    <td>Calories</td>
                     <td>{{ best.cal }}</td>
                 </tr>
                 <tr> 
-                    <td>fat</td>
+                    <td>Fat</td>
                     <td>{{ best.fat }}g</td>
                 </tr>
                 <tr> 
-                    <td>saturated fat</td>
+                    <td>Saturated fat</td>
                     <td>{{ best.sfat }}g</td>
                 </tr>
                 <tr> 
-                    <td>carbohydrates</td>
+                    <td>Carbohydrates</td>
                     <td>{{ best.carb }}g</td>
                 </tr>
                 <tr> 
-                    <td>sugar</td>
+                    <td>Sugar</td>
                     <td>{{ best.sgr }}g</td>
                 </tr>
                 <tr>
-                    <td>salt</td>
+                    <td>Salt</td>
                     <td>{{ best.salt }}mg</td>
                 </tr>
                 <tr> 
-                    <td>fibre</td>
+                    <td>Fibre</td>
                     <td>{{ best.fbr }}g</td>
                 </tr>
+            </table>
     {% endif %}
+            
 
+    <p class="summary">If you want something else, your other options are displayed below:</p>
 
     <table id="t01">
         <tr>

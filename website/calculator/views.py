@@ -33,6 +33,16 @@ def index(request):
         foods[:] = [x for x in foods if (x.quantity * x.pro <= (protein+10)) and x.quantity > 0] # remove items with excessive macros
         foods[:] = sorted(foods, key=lambda x: x.total_protein)
         best = foods[0]
+        best.pro *= best.quantity
+        best.cal *= best.quantity
+        best.fat *= best.quantity
+        best.sfat *= best.quantity
+        best.carb *= best.quantity
+        best.sgr *= best.quantity
+        best.salt *= best.quantity
+        best.fbr *= best.quantity
+
+
 
 
         form = CalcuFilter(request.POST)
@@ -40,8 +50,6 @@ def index(request):
         if form.is_valid():
             pass #trigger validation
         
-
-
     else:
         form = CalcuFilter()
         foods = Food.objects.order_by('-cal')[:1]
@@ -52,9 +60,7 @@ def index(request):
                 'get': get}
     if not get:
         context['best'] = best
-        context['summary_list'] = ['protein', 'calories', 'fat', 
-                                   'saturated fat', 'carbs', 'sugar', 
-                                   'salt', 'fibre']
+        context['protein'] = protein
     
 
     return render(request, 'calculator/index.html', context)
