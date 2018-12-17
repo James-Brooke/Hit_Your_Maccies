@@ -30,9 +30,11 @@ def index(request):
         for food in foods:
             food.quantity = process_food(food, protein) # calculate how many of this item to hit requirements
             food.total_protein = food.pro * food.quantity
-        foods[:] = [x for x in foods if (x.quantity * x.pro <= (protein+10))] # remove items with excessive macros
+        foods[:] = [x for x in foods if (x.quantity * x.pro <= (protein+10)) and x.quantity > 0] # remove items with excessive macros
         foods[:] = sorted(foods, key=lambda x: x.total_protein)
-    
+        best = foods[0]
+
+
         form = CalcuFilter(request.POST)
 
         if form.is_valid():
@@ -48,8 +50,11 @@ def index(request):
     context = {'foods': foods,
                 'form': form,
                 'get': get}
-
-    
+    if not get:
+        context['best'] = best
+        context['summary_list'] = ['protein', 'calories', 'fat', 
+                                   'saturated fat', 'carbs', 'sugar', 
+                                   'salt', 'fibre']
     
 
     return render(request, 'calculator/index.html', context)
