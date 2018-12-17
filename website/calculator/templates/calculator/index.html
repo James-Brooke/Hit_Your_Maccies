@@ -1,11 +1,17 @@
 {% extends 'calculator/base.html' %}
 
 {% block content %}
-  <div style="overflow-x:auto;">
 
-    {% if get %}
-        <p>How many grams of protein do you need? The most calorific thing on the menu is:</p>
-    {% else %}
+<div class="topnav">
+        <a class="active" href="home">Home</a>
+        <a href="../about">About</a>
+        <a href="contact">Contact</a>
+    </div>
+
+
+  <div class="main"; style="overflow-x:auto;">
+
+    {% if not get %}
         {% if best.quantity > 1 %}
             <p class="summary">In order to get <b>{{ protein }}g</b> of protein, your best option is to order {{ best.quantity }} of {{ best.name }}.</p>
         {% else %}
@@ -46,11 +52,11 @@
                     <td>{{ best.fbr }}g</td>
                 </tr>
             </table>
-    {% endif %}
-            
-
+        
     <p class="summary">If you want something else, your other options are displayed below:</p>
+    {% endif %}
 
+    {% if not get %}
     <table id="t01">
         <tr>
             <th>Menu Item</th>
@@ -89,13 +95,18 @@
         {% endif %}
         {% endfor %}
     </table>
+    {% endif %}
   </div>
 
-
-  <form method="post" novalidate>
+  {% if not get %}
+    <p class="summary">Start again?</p>
+    <form method="post" novalidate>
+  {% else %}
+    <form method="post" novalidate class="get">
+  {% endif %}
     {% csrf_token %}
     {{ form }}
     <button type="submit">Submit</button>
-  </form>
-
+    </form>
+    
   {% endblock %}
