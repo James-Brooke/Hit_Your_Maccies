@@ -25,7 +25,7 @@ def index(request):
         get = False
         protein = request.POST['pro']
         category = request.POST['category']
-        foods = Food.objects.order_by('pro')
+        foods = Food.objects.order_by('-pro')
         if category != 'ALL':
             foods = foods.filter(category=category)
 
