@@ -7,7 +7,11 @@ class CalcuFilter(ModelForm):
     CATEGORIES = (
         ('ALL', 'ANY'),
         ('CHICKEN', 'Chicken'),
-        ('BURGER', 'Beef')
+        ('BURGER', 'Beef'),
+        ('BEVERAGE', 'Drinks'),
+        ('BREAKFAST', 'Breakfast'),
+        ('DESSERT', 'Dessert'),
+        ('HAPPYMEAL', 'Happy Meals')
     )
 
     category = forms.ChoiceField(choices=CATEGORIES, required=False)
@@ -15,7 +19,7 @@ class CalcuFilter(ModelForm):
 
     class Meta:
         model = Food
-        fields = ['pro', 'category']
+        fields = ['pro', 'category']    
         labels = {
             'pro': "How many grams of protein do you need?  ",
         }
