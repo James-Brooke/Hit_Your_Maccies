@@ -66,6 +66,11 @@ def index(request):
     return render(request, 'calculator/index.html', context)
 
 
+def analytics(request):
+    context = {}
+    return render(request, 'calculator/analytics.html', context)
+
+
 
 def about(request):
     context = {}
@@ -75,3 +80,4 @@ def about(request):
 def contact(request):
     context = {}
     return render(request, 'calculator/contact.html', context)
+
