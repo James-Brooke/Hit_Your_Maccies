@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Food
 from .forms import CalcuFilter
 import math
@@ -71,7 +71,6 @@ def analytics(request):
     return render(request, 'calculator/analytics.html', context)
 
 
-
 def about(request):
     context = {}
     return render(request, 'calculator/about.html', context)
@@ -81,3 +80,5 @@ def contact(request):
     context = {}
     return render(request, 'calculator/contact.html', context)
 
+def data(request):
+    return JsonResponse({'foo':'bar'})
