@@ -1,8 +1,11 @@
+import math
+import json
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from .models import Food
 from .forms import CalcuFilter
-import math
 
 
 def process_food(food, protein_required):
@@ -81,4 +84,7 @@ def contact(request):
     return render(request, 'calculator/contact.html', context)
 
 def data(request):
-    return JsonResponse({'foo':'bar'})
+
+    data = serializers.serialize('json', Food.objects.all())
+    data = json.loads(data)
+    return JsonResponse(data, safe=False)
