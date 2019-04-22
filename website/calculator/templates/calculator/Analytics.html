@@ -10,17 +10,13 @@
     <a href="contact">Contact</a>
 </div>
 
-
+<body>
 <div class = "main">
-<p>Analytics page here</p>
 
-<!-- <svg width = "960" height = "500"></svg> -->
-
-
+{% csrf_token %}
+{{ form }}
 
 <script>
-
-
     // set the dimensions and margins of the graph
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
@@ -43,43 +39,68 @@
         .attr("transform", 
             "translate(" + margin.left + "," + margin.top + ")");
 
-
     d3.json("/data", function(error, data) {
         if (error) {
             throw error;
         }
 
-          // scale the range of the data
+        console.log(data[1])
+
+        // scale the range of the data
         x.domain(data.map(function(d) { return d.fields.name; }));
         y.domain([0, d3.max(data, function(d) { return d.fields.cal; })]);
 
+        // Add bar chart
+        // append the rectangles for the bar chart
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d.fields.name); })
+            .attr("width", x.bandwidth())
+            .attr("y", function(d) { return y(d.fields.cal); })
+            .attr("height", function(d) { return height - y(d.fields.cal); });
 
-        console.log(data[1]);
+        // add the x Axis
+        svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
 
-          // Add bar chart
-  // append the rectangles for the bar chart
-    svg.selectAll(".bar")
-        .data(data)
-        .enter().append("rect")
-        .attr("class", "bar")
-        .attr("x", function(d) { return x(d.fields.name); })
-        .attr("width", x.bandwidth())
-        .attr("y", function(d) { return y(d.fields.cal); })
-        .attr("height", function(d) { return height - y(d.fields.cal); });
+        // add the y Axis
+        svg.append("g")
+        .call(d3.axisLeft(y));
 
+        // add a change event handler 
+        d3.select("#id_category").on("change", function() {
+            FilterData(this.value);
+            });
+    
+        function FilterData(value) {
+            // filter the data and remove old elements
+            var filter_data = data.filter(function(d) {return d.fields.category === value;})
+            var bars = svg.selectAll(".bar")
+            bars.remove()
+
+            // add new elements for filtered data
+            svg.selectAll(".bar")
+            .data(filter_data)
+            .enter().append("rect")
+            .transition().duration(1000)
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d.fields.name); })
+            .attr("width", x.bandwidth())
+            .attr("y", function(d) { return y(d.fields.cal); })
+            .attr("height", function(d) { return height - y(d.fields.cal); })
+
+        }
 
 
 
     });
-
-
-
-
 </script>
 
 
 
-
-
 </div>
+</body>
 {% endblock %}

@@ -2,20 +2,20 @@ from django import forms
 from django.forms import ModelForm, Select
 from .models import Food
 
-class CalcuFilter(ModelForm):
 
-    CATEGORIES = (
-        ('ALL', 'ANY'),
-        ('CHICKEN', 'Chicken'),
-        ('BURGER', 'Beef'),
-        ('BEVERAGE', 'Drinks'),
-        ('BREAKFAST', 'Breakfast'),
-        ('DESSERT', 'Dessert'),
-        ('HAPPYMEAL', 'Happy Meals')
+CATEGORIES = (
+    ('ALL', 'All'),
+    ('CHICKEN', 'Chicken'),
+    ('BURGER', 'Beef'),
+    ('BEVERAGE', 'Drinks'),
+    ('BREAKFAST', 'Breakfast'),
+    ('DESSERT', 'Dessert'),
+    ('HAPPYMEAL', 'Happy Meals')
     )
 
-    category = forms.ChoiceField(choices=CATEGORIES, required=False)
+class HowMuchProtein(ModelForm):
 
+    category = forms.ChoiceField(choices=CATEGORIES, required=False)
 
     class Meta:
         model = Food
@@ -23,3 +23,12 @@ class CalcuFilter(ModelForm):
         labels = {
             'pro': "How many grams of protein do you need?  ",
         }
+
+class AnalyticsDropDown(ModelForm):
+
+    category = forms.ChoiceField(choices=CATEGORIES, required=False)
+
+    class Meta:
+        model = Food
+        fields = ['category']
+        labels = {'category': 'Category'}

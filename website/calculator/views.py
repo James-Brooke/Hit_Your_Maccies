@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .models import Food
-from .forms import CalcuFilter
+from .forms import HowMuchProtein, AnalyticsDropDown
 
 
 def process_food(food, protein_required):
@@ -48,13 +48,13 @@ def index(request):
 
 
 
-        form = CalcuFilter(request.POST)
+        form = HowMuchProtein(request.POST)
 
         if form.is_valid():
             pass #trigger validation
         
     else:
-        form = CalcuFilter()
+        form = HowMuchProtein()
         foods = Food.objects.order_by('-cal')[:1]
         get = True
 
@@ -70,7 +70,8 @@ def index(request):
 
 
 def analytics(request):
-    context = {}
+    form = AnalyticsDropDown()
+    context = {'form': form}
     return render(request, 'calculator/analytics.html', context)
 
 
