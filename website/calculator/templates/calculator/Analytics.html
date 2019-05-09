@@ -79,7 +79,13 @@
             .attr("x", function(d) { return x(d.fields.name); })
             .attr("width", x.bandwidth())
             .attr("y", function(d) { return y(d.fields.cal); })
-            .attr("height", function(d) { return height - y(d.fields.cal); });
+            .attr("height", function(d) { return height - y(d.fields.cal); })
+            .on("mouseover", function(d) {
+                d3.select(this).style("fill", "red");
+            })                  
+            .on("mouseout", function(d) {
+                d3.select(this).style("fill", "black");
+            });
         };
 
     function drawFiltered(data, value) {
