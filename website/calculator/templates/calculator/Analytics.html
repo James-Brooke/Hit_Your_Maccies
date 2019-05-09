@@ -22,35 +22,49 @@
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-    // set the ranges
-    var x = d3.scaleBand()
-          .range([0, width])
-          .padding(0.1);
-    var y = d3.scaleLinear()
-          .range([height, 0]);
-
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-    .append("g")
+        .append("g")
         .attr("transform", 
             "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("/data", function(error, data) {
-        if (error) {
-            throw error;
-        }
+    function drawGraph(data, redraw=false) {
 
-        console.log(data[1])
+        if (redraw){
+            var bars = svg.selectAll(".bar")
+            bars.remove();
+            svg.selectAll('.yaxis').remove();
+            svg.selectAll('.xaxis').remove();
+        };
 
-        // scale the range of the data
+        // define the ranges
+        var x = d3.scaleBand()
+            .range([0, width])
+            .padding(0.1);
+        var y = d3.scaleLinear()
+            .range([height, 0]);
+
+        // scale the range of the axis according to data
         x.domain(data.map(function(d) { return d.fields.name; }));
         y.domain([0, d3.max(data, function(d) { return d.fields.cal; })]);
 
-        // Add bar chart
+        // define the axes
+        var xAxis = d3.axisBottom(x);
+        var yAxis = d3.axisLeft(y);
+
+        // add the axes
+        svg.append("g")
+            .attr("class", "xaxis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+        svg.append("g")
+            .attr("class", "yaxis")
+            .call(yAxis);
+
         // append the rectangles for the bar chart
         svg.selectAll(".bar")
             .data(data)
@@ -60,42 +74,32 @@
             .attr("width", x.bandwidth())
             .attr("y", function(d) { return y(d.fields.cal); })
             .attr("height", function(d) { return height - y(d.fields.cal); });
+        };
 
-        // add the x Axis
-        svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+    function FilterData(data, value) {
+            // filter the data and remove old elements
+            var filter_data = data.filter(function(d) {return d.fields.category === value;})
+            drawGraph(filter_data, redraw=true);
+    };
 
-        // add the y Axis
-        svg.append("g")
-        .call(d3.axisLeft(y));
+    d3.json("/data", function(error, data) {
+        if (error) {
+            throw error;
+        };
+
+        console.log(data[1]);
+
+        drawGraph(data);
 
         // add a change event handler 
         d3.select("#id_category").on("change", function() {
-            FilterData(this.value);
+            if (this.value === 'ALL'){
+                drawGraph(data, redraw=true);  
+            }
+            else {
+                FilterData(data, this.value);
+            }
             });
-    
-        function FilterData(value) {
-            // filter the data and remove old elements
-            var filter_data = data.filter(function(d) {return d.fields.category === value;})
-            var bars = svg.selectAll(".bar")
-            bars.remove()
-
-            // add new elements for filtered data
-            svg.selectAll(".bar")
-            .data(filter_data)
-            .enter().append("rect")
-            .transition().duration(1000)
-            .attr("class", "bar")
-            .attr("x", function(d) { return x(d.fields.name); })
-            .attr("width", x.bandwidth())
-            .attr("y", function(d) { return y(d.fields.cal); })
-            .attr("height", function(d) { return height - y(d.fields.cal); })
-
-        }
-
-
-
     });
 </script>
 
