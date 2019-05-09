@@ -18,9 +18,9 @@
 
 <script>
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    var margin = {top: 20, right: 20, bottom: 400, left: 40},
         width = 960 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        height = 700 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'
@@ -61,9 +61,15 @@
             .attr("class", "xaxis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
+            .selectAll('text')
+            .attr("y", -3)
+            .attr("x", 9)
+            .attr("transform", "rotate(90)")
+            .style("text-anchor", "start");
         svg.append("g")
             .attr("class", "yaxis")
             .call(yAxis);
+  
 
         // append the rectangles for the bar chart
         svg.selectAll(".bar")
@@ -76,7 +82,7 @@
             .attr("height", function(d) { return height - y(d.fields.cal); });
         };
 
-    function FilterData(data, value) {
+    function drawFiltered(data, value) {
             // filter the data and remove old elements
             var filter_data = data.filter(function(d) {return d.fields.category === value;})
             drawGraph(filter_data, redraw=true);
@@ -97,7 +103,7 @@
                 drawGraph(data, redraw=true);  
             }
             else {
-                FilterData(data, this.value);
+                drawFiltered(data, this.value);
             }
             });
     });
