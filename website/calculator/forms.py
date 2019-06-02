@@ -13,6 +13,11 @@ CATEGORIES = (
     ('HAPPYMEAL', 'Happy Meals')
     )
 
+MACROS = (
+    ('cal', 'Calories'),
+    ('cal', 'Protein') 
+)
+
 class HowMuchProtein(ModelForm):
 
     category = forms.ChoiceField(choices=CATEGORIES, required=False)
@@ -24,7 +29,7 @@ class HowMuchProtein(ModelForm):
             'pro': "How many grams of protein do you need?  ",
         }
 
-class AnalyticsDropDown(ModelForm):
+class AnalyticsCategoryDropDown(ModelForm):
 
     category = forms.ChoiceField(choices=CATEGORIES, required=False)
 
@@ -32,3 +37,7 @@ class AnalyticsDropDown(ModelForm):
         model = Food
         fields = ['category']
         labels = {'category': 'Category'}
+
+class AnalyticsMacroDropDown(forms.Form):
+
+    macro = forms.CharField(label='Macro', widget=forms.Select(choices=MACROS))

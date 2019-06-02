@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from .models import Food
-from .forms import HowMuchProtein, AnalyticsDropDown
+from .forms import HowMuchProtein, AnalyticsCategoryDropDown, AnalyticsMacroDropDown
 
 
 def process_food(food, protein_required):
@@ -70,8 +70,10 @@ def index(request):
 
 
 def analytics(request):
-    form = AnalyticsDropDown()
-    context = {'form': form}
+    category_dropdown = AnalyticsCategoryDropDown()
+    macro_dropdown = AnalyticsMacroDropDown()
+    context = {'category_dropdown': category_dropdown, 
+                'macro_dropdown': macro_dropdown}
     return render(request, 'calculator/analytics.html', context)
 
 
