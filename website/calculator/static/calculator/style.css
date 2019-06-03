@@ -1,4 +1,11 @@
 /* Add a black background color to the top navigation */
+
+html * {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .topnav {
   background-color: #dd1021;
   overflow: hidden;
@@ -9,7 +16,7 @@
 }
 
 .main {
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
 /* Style the links inside the navigation bar */
@@ -19,7 +26,6 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 24px; 
   font-style: normal; 
   font-variant: normal; 
@@ -39,17 +45,26 @@
   color: black;
 }   
 
-/* Centre images */
-.centre {
-    display: block;
-    position: fixed;
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    bottom: 0px;
-    margin-bottom: 0px;
+.backgroundimages{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  background-image: url('images/burger.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
+.burger {
+  width: 100%;
+  margin:auto;
+}
+
+.fries {
+  width: 100%;
+  margin:auto;
+}
+
 
 table {
   border-collapse: collapse;
@@ -72,7 +87,6 @@ table.SummaryTable {
   font-weight: bold;
   font-size: 22px
 }
-
 
 img {
   z-index:-5;

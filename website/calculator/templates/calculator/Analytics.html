@@ -100,7 +100,7 @@
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);
-                tooltip .html(d.fields.name + "<br/>"  + d.fields.cal)	
+                tooltip .html(d.fields.name + "<br/>" + d.fields.cal + " calories" + "<br/>" + d.fields.pro + "g protein")	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px")
             })         
