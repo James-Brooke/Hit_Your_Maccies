@@ -32,7 +32,7 @@
         .attr("transform", 
             "translate(" + margin.left + "," + margin.top + ")");
 
-    function drawGraph(data, redraw=false) {
+    function drawGraph(data, redraw=false, macro='cal') {
         
         // remove previous bars / axes
         if (redraw){
@@ -51,8 +51,11 @@
 
         // scale the range of the axis with respect to data
         x.domain(data.map(function(d) { return d.fields.name; }));
-        y.domain([0, d3.max(data, function(d) { return d.fields.cal; })]);
-
+        if (macro==='cal'){
+            y.domain([0, d3.max(data, function(d) { return d.fields.cal; })]);
+        } else{
+            y.domain([0, d3.max(data, function(d) { return d.fields.pro; })]);
+        };
         // define the axes
         var xAxis = d3.axisBottom(x);
         var yAxis = d3.axisLeft(y);
@@ -79,20 +82,28 @@
             .attr("class", "bar")
             .attr("x", function(d) { return x(d.fields.name); })
             .attr("width", x.bandwidth())
-            .attr("y", function(d) { return y(d.fields.cal); })
-            .attr("height", function(d) { return height - y(d.fields.cal); })
             .on("mouseover", function(d) {
                 d3.select(this).style("fill", "red");
             })                  
             .on("mouseout", function(d) {
                 d3.select(this).style("fill", "black");
             });
+
+        if (macro==='cal'){
+            svg.selectAll(".bar")
+            .attr("y", function(d) { return y(d.fields.cal); })
+            .attr("height", function(d) { return height - y(d.fields.cal); })
+            } else {
+                svg.selectAll(".bar")
+                .attr("y", function(d) { return y(d.fields.pro); })
+                .attr("height", function(d) { return height - y(d.fields.pro); })
+            }
         };
 
-    function drawFiltered(data, value) {
+    function drawFiltered(data, value, macro) {
             // filter the data and remove old elements
             var filter_data = data.filter(function(d) {return d.fields.category === value;})
-            drawGraph(filter_data, redraw=true);
+            drawGraph(filter_data, redraw=true, macro=macro);
     };
 
     d3.json("/data", function(error, data) {
@@ -104,15 +115,22 @@
 
         drawGraph(data);
 
-        // add a change event handler 
-        d3.select("#id_category").on("change", function() {
-            if (this.value === 'ALL'){
-                drawGraph(data, redraw=true);  
+        // add a change event handler to dropdowns
+        d3.selectAll("#id_category, #id_macro").on("change", function() {
+
+            var category = document.getElementById("id_category").value
+            var macro = document.getElementById("id_macro").value
+            console.log(category, macro)
+
+            if (category === 'ALL'){
+                drawGraph(data, redraw=true, macro);  
             }
             else {
-                drawFiltered(data, this.value);
+                drawFiltered(data, category, macro);
             }
             });
+        
+
     });
 </script>
 

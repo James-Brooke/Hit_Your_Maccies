@@ -15,7 +15,7 @@ CATEGORIES = (
 
 MACROS = (
     ('cal', 'Calories'),
-    ('cal', 'Protein') 
+    ('pro', 'Protein') 
 )
 
 class HowMuchProtein(ModelForm):
