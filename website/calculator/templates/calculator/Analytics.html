@@ -118,9 +118,8 @@
         // add a change event handler to dropdowns
         d3.selectAll("#id_category, #id_macro").on("change", function() {
 
-            var category = document.getElementById("id_category").value
-            var macro = document.getElementById("id_macro").value
-            console.log(category, macro)
+            var category = document.getElementById("id_category").value;
+            var macro = document.getElementById("id_macro").value;
 
             if (category === 'ALL'){
                 drawGraph(data, redraw=true, macro);  
