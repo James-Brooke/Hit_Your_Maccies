@@ -14,9 +14,21 @@
 <div class = "main">
 
 {% csrf_token %}
-{{ category_dropdown }}{{ macro_dropdown }}
+{{ category_dropdown }}  {{ macro_dropdown }}
 
 <script>
+
+    // used for sizing tooltips
+    function getTextDimensions(text, font) {
+        // re-use canvas object for better performance
+        var canvas = getTextDimensions.canvas || (getTextDimensions.canvas = document.createElement("canvas"));
+        var context = canvas.getContext("2d");
+        context.font = font;
+        var width = context.measureText(text).width;
+        var height = context.measureText('M').width;
+        return [width, height];
+    }
+
     // set the dimensions and margins of the graph
     var margin = {top: 20, right: 20, bottom: 400, left: 40},
         width = 1200 - margin.left - margin.right,
@@ -32,16 +44,22 @@
         .attr("transform", 
             "translate(" + margin.left + "," + margin.top + ")");
 
-    function drawGraph(data, redraw=false, macro='cal') {
-        
+    function drawGraph(data, redraw=false) {
+
         // remove previous bars / axes
         if (redraw){
-            var bars = svg.selectAll(".bar")
-            bars.remove();
+            svg.selectAll(".bar").remove();
             svg.selectAll('.yaxis').remove();
             svg.selectAll('.xaxis').remove();
         };
 
+        // get values from dropdowns
+        var category = document.getElementById("id_category").value;
+        var macro = document.getElementById("id_macro").value;
+
+        // filter on category
+        data = data.filter(function(d) {return d.fields.category === category;})
+    
         // define the ranges
         var x = d3.scaleBand()
             .range([0, width])
@@ -49,13 +67,14 @@
         var y = d3.scaleLinear()
             .range([height, 0]);
 
-        // scale the range of the axis with respect to data
+        // scale the range for the axes with respect to data
         x.domain(data.map(function(d) { return d.fields.name; }));
         if (macro==='cal'){
             y.domain([0, d3.max(data, function(d) { return d.fields.cal; })]);
         } else{
             y.domain([0, d3.max(data, function(d) { return d.fields.pro; })]);
         };
+
         // define the axes
         var xAxis = d3.axisBottom(x);
         var yAxis = d3.axisLeft(y);
@@ -73,8 +92,12 @@
         svg.append("g")
             .attr("class", "yaxis")
             .call(yAxis);
-  
 
+        // Define the div for the tooltip
+        var tooltip = d3.select("body").append("div")	
+            .attr("class", "tooltip")				
+            .style("opacity", 0);
+        
         // append the rectangles for the bar chart
         svg.selectAll(".bar")
             .data(data)
@@ -83,10 +106,25 @@
             .attr("x", function(d) { return x(d.fields.name); })
             .attr("width", x.bandwidth())
             .on("mouseover", function(d) {
-                d3.select(this).style("fill", "red");
-            })                  
+                d3.select(this)
+                .style("fill", "red");
+                tooltip.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);
+                text = d.fields.name + "<br/>"  + d.fields.cal
+                dimensions = getTextDimensions(text)
+                tooltip .html(text)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px")
+                .style('width', dimensions[0] + 5)
+                .style('height'), dimensions[1] + 5;	
+            })         
             .on("mouseout", function(d) {
-                d3.select(this).style("fill", "black");
+                d3.select(this)
+                .style("fill", "black");
+                tooltip.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
             });
 
         if (macro==='cal'){
@@ -100,36 +138,17 @@
             }
         };
 
-    function drawFiltered(data, value, macro) {
-            // filter the data and remove old elements
-            var filter_data = data.filter(function(d) {return d.fields.category === value;})
-            drawGraph(filter_data, redraw=true, macro=macro);
-    };
-
     d3.json("/data", function(error, data) {
         if (error) {
             throw error;
         };
 
-        console.log(data[1]);
-
         drawGraph(data);
 
         // add a change event handler to dropdowns
         d3.selectAll("#id_category, #id_macro").on("change", function() {
-
-            var category = document.getElementById("id_category").value;
-            var macro = document.getElementById("id_macro").value;
-
-            if (category === 'ALL'){
-                drawGraph(data, redraw=true, macro);  
-            }
-            else {
-                drawFiltered(data, category, macro);
-            }
+            drawGraph(data, redraw=true);
             });
-        
-
     });
 </script>
 

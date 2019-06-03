@@ -4,7 +4,6 @@ from .models import Food
 
 
 CATEGORIES = (
-    ('ALL', 'All'),
     ('CHICKEN', 'Chicken'),
     ('BURGER', 'Beef'),
     ('BEVERAGE', 'Drinks'),
