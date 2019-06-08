@@ -1,5 +1,7 @@
 {% extends 'calculator/base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
 <div class="topnav">
@@ -106,7 +108,7 @@
     <form method="post" novalidate class="get">
   {% endif %}
     {% csrf_token %}
-    {{ form }}
+    {{ form|crispy }}
     <button type="submit">Go</button>
     </form>
     

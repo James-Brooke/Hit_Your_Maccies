@@ -2,8 +2,12 @@ from django import forms
 from django.forms import ModelForm, Select
 from .models import Food
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
+
 
 CATEGORIES = (
+    ('ALL', 'Any'),
     ('CHICKEN', 'Chicken'),
     ('BURGER', 'Beef'),
     ('BEVERAGE', 'Drinks'),
@@ -17,16 +21,10 @@ MACROS = (
     ('pro', 'Protein') 
 )
 
-class HowMuchProtein(ModelForm):
+class HowMuchProtein(forms.Form):
 
     category = forms.ChoiceField(choices=CATEGORIES, required=False)
-
-    class Meta:
-        model = Food
-        fields = ['pro', 'category']    
-        labels = {
-            'pro': "How many grams of protein do you need?  ",
-        }
+    protein = forms.IntegerField(initial=25, label= "How many grams of protein do you need? ")
 
 class AnalyticsCategoryDropDown(ModelForm):
 
@@ -40,3 +38,4 @@ class AnalyticsCategoryDropDown(ModelForm):
 class AnalyticsMacroDropDown(forms.Form):
 
     macro = forms.CharField(label='Macro', widget=forms.Select(choices=MACROS))
+

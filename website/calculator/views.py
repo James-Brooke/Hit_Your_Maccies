@@ -23,7 +23,7 @@ def index(request):
 
     if request.method == 'POST':
         get = False
-        protein = float(request.POST['pro'])
+        protein = float(request.POST['protein'])
         category = request.POST['category']
         foods = Food.objects.order_by('-pro')
         if category != 'ALL':
