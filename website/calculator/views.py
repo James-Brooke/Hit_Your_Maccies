@@ -45,9 +45,6 @@ def index(request):
         best.salt *= best.quantity
         best.fbr *= best.quantity
 
-
-
-
         form = HowMuchProtein(request.POST)
 
         if form.is_valid():
