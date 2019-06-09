@@ -23,12 +23,14 @@ MACROS = (
 
 class HowMuchProtein(forms.Form):
 
-    protein = forms.IntegerField(initial=25, label= "How many grams of protein do you need? ")
+    protein = forms.IntegerField(initial=25, 
+                                 label="How many grams of protein do you need?",
+                                 required=False)
     category = forms.ChoiceField(choices=CATEGORIES, required=False)
 
 class AnalyticsCategoryDropDown(ModelForm):
 
-    category = forms.ChoiceField(choices=CATEGORIES, required=False)
+    category = forms.ChoiceField(choices=CATEGORIES[1:], required=False)
 
     class Meta:
         model = Food
@@ -37,5 +39,5 @@ class AnalyticsCategoryDropDown(ModelForm):
 
 class AnalyticsMacroDropDown(forms.Form):
 
-    macro = forms.CharField(label='Macro', widget=forms.Select(choices=MACROS))
+    macro = forms.CharField(label='Macro', widget=forms.Select(choices=MACROS), required=False)
 

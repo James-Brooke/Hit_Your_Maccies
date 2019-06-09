@@ -9,6 +9,11 @@ html * {
   color: #f2f2f2;
   font-size: 25px; }
 
+/* Style the main link in the navbar */
+.navbar a.main {
+  color: #f2f2f2;
+  font-size: 40px; }
+
 /* Add a color to the active/current link */
 .navbar a.active {
   background-color: #ffc300;
@@ -56,7 +61,7 @@ form {
   font-size: 18px; 
   margin-left: auto;
   margin-right: auto;
-  margin-top: auto;
+  margin-top: 15%;
   margin-bottom: auto;
   width: 40%;
 }
@@ -72,6 +77,19 @@ p.summary {
   margin-right: auto;
   width: 60%;
   text-align: center;
+}
+
+
+/* Analytics page css */
+
+.AnalyticsDropdowns {
+  margin-top: auto;
+}
+
+svg {
+  display: block;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 div.tooltip {	

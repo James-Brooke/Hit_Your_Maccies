@@ -1,13 +1,16 @@
 {% extends 'calculator/base.html' %}
 
+{% load crispy_forms_tags %}
 {% block content %}
 
 <body>
-<div class = "main">
 
-{% csrf_token %}
-{{ category_dropdown }}  {{ macro_dropdown }}
-
+<div class='AnalyticsHolder'>
+    <form class="AnalyticsDropdowns">
+        {{ category_dropdown|crispy }}  {{ macro_dropdown|crispy }}
+    </form>
+    <div id='GraphHolder'></div>
+</div>
 <script>
 
     // set the dimensions and margins of the graph
@@ -18,9 +21,11 @@
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("#GraphHolder").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .attr("class", "border rounded")
+        .style("background-color", 'White')
         .append("g")
         .attr("transform", 
             "translate(" + margin.left + "," + margin.top + ")");
@@ -75,7 +80,7 @@
             .call(yAxis);
 
         // Define the div for the tooltip
-        var tooltip = d3.select("body").append("div")	
+        var tooltip = d3.select("#GraphHolder").append("div")	
             .attr("class", "tooltip")				
             .style("opacity", 0);
         
@@ -129,8 +134,5 @@
     });
 </script>
 
-
-
-</div>
 </body>
 {% endblock %}
