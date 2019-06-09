@@ -1,13 +1,15 @@
-/* Add a black background color to the top navigation */
-
 html * {
-  font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";}
+  font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+  box-sizing: border-box;}
 
+/* Navbar */
 
 /* Style the links inside the navigation bar */
 .navbar a {
   color: #f2f2f2;
-  font-size: 25px; }
+  font-size: 25px;
+  z-index: 100;
+}
 
 /* Style the main link in the navbar */
 .navbar a.main {
@@ -20,6 +22,8 @@ html * {
   color: black;
 }   
 
+/* Background */
+
 .backgroundimages{
   display: flex;
   flex-direction: column;
@@ -30,10 +34,91 @@ html * {
   background-repeat: no-repeat;
 }
 
+.content-container {
+  position: fixed;
+  display: flex;
+  flex-direction:column;
+}
+
+video {
+  height: 100%;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.overlay-div {
+  background: rgba(0,0,0,0);
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Homepage form */
+
+.flex-form > * {
+  border:0;
+  padding:10px;
+  background:white;
+  line-height:50px;
+  font-size:20px;
+  border-radius:0;
+  outline:0;
+  border-right:2px solid rgba(0,0,0,0.2);
+  -webkit-appearance:none;
+}
+
+.home-form {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items:center;
+  border:15px solid rgba(0,0,0,0.3);
+  border-radius: 5px;
+  width: 40%;
+  margin: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 18%;
+  margin-bottom: auto;
+}
+
+input[type="number"]{
+  flex-basis: 0%;
+  flex-grow: 1;
+}
+
+select.category {
+  flex-basis: 25%;
+  flex-grow: 1.5;
+}
+
+select:invalid { color: gray; }
+
+option {
+  color: black;
+}
+
+input[type="submit"]{
+  flex-basis: 10%;
+  border-right: 0;
+  outline:1px solid rgba(0,0,0,0.2);
+  color: white;
+  background-color:#dd1021;
+}
+
+input[type="submit"]:hover{
+  color: black;
+  background-color: #ffc300;
+  box-shadow: 0 0 3pt 2pt green;
+}
+
+/* Homepage results table */
+
 table {
   border-collapse: collapse;
   width: 75%;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px; 
 }
 
@@ -52,26 +137,6 @@ table.SummaryTable {
   font-size: 22px
 }
 
-img {
-  z-index:-5;
-}
-
-form {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px; 
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 15%;
-  margin-bottom: auto;
-  width: 40%;
-}
-
-
-p {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 18px;
-}
-
 p.summary {
   margin-left: auto;
   margin-right: auto;
@@ -80,7 +145,7 @@ p.summary {
 }
 
 
-/* Analytics page css */
+/* Analytics page */
 
 .AnalyticsDropdowns {
   margin-top: auto;

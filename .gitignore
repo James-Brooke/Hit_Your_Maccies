@@ -1,4 +1,13 @@
-.ipynb_checkpoints
+#Virtual env 
 .venv
+
+#VScode settings
 .vscode
 __pycache__/
+
+# Notebook cache
+.ipynb_checkpoints
+
+# Pycache
+__pycache__/
+*.pyc

@@ -13,10 +13,18 @@
   </head>
 
   <body>
-    <div class='backgroundimages'>
-      {% include './navbar.html' %}
-      {% block content %}
-      {% endblock %}
-    </div>
+    {% include './navbar.html' %}
+    <div class='content-container'>
+      <video class="background-video" 
+             src="{% static 'calculator/images/schnitzel.mp4' %}" 
+             autoplay 
+             loop
+             type="video/mp4"
+             sound="off"
+             ></video>
+      <div class="overlay-div">
+          {% block content %}
+          {% endblock %}
+      </div>
   </body>
 </html>
