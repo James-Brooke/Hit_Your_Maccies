@@ -55,7 +55,8 @@ def index(request):
         foods = Food.objects.order_by('-cal')[:1]
         get = True
 
-    context = {'foods': foods,
+    context = { 'home_page': 'active',
+                'foods': foods,
                 'form': form,
                 'get': get}
     if not get:
@@ -69,18 +70,19 @@ def index(request):
 def analytics(request):
     category_dropdown = AnalyticsCategoryDropDown()
     macro_dropdown = AnalyticsMacroDropDown()
-    context = {'category_dropdown': category_dropdown, 
+    context = { 'analytics_page': 'active',
+                'category_dropdown': category_dropdown, 
                 'macro_dropdown': macro_dropdown}
     return render(request, 'calculator/analytics.html', context)
 
 
 def about(request):
-    context = {}
+    context = { 'about_page': 'active'}
     return render(request, 'calculator/about.html', context)
 
 
 def contact(request):
-    context = {}
+    context = { 'contact_page': 'active'}
     return render(request, 'calculator/contact.html', context)
 
 def data(request):

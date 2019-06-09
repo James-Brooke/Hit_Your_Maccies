@@ -23,8 +23,8 @@ MACROS = (
 
 class HowMuchProtein(forms.Form):
 
-    category = forms.ChoiceField(choices=CATEGORIES, required=False)
     protein = forms.IntegerField(initial=25, label= "How many grams of protein do you need? ")
+    category = forms.ChoiceField(choices=CATEGORIES, required=False)
 
 class AnalyticsCategoryDropDown(ModelForm):
 
