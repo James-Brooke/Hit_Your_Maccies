@@ -23,6 +23,13 @@ def index(request):
 
     if request.method == 'POST':
         get = False
+
+        print('\n\n-------------------------')
+        print('REQUEST.POST:', request.POST)
+        print('REQUEST.POST.GET:', request.POST.get('protein'))
+        print('\n\n-------------------------')
+        form = HowMuchProtein(request.POST)
+
         protein = float(request.POST['protein'])
         category = request.POST['category']
         foods = Food.objects.order_by('-pro')

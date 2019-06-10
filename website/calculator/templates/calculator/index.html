@@ -94,11 +94,11 @@
     {% endif %}
   </div>
 
-  <form class="flex-form home-form"> 
+  <form class="flex-form home-form" action="{% url 'home' %}" method="post">{% csrf_token %}
 
-    <input type="number" placeholder='How many grams of protein do you need?'>
+    <input type="number" name="protein" placeholder='How many grams of protein do you need?'>
 
-    <select required class="category">
+    <select required class="category" name="category">
         <option value="" disabled selected hidden>Food category</option>
         <option value="ALL">Any</option>
         <option value="CHICKEN">Chicken</option>
