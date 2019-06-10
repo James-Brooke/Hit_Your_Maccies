@@ -75,11 +75,6 @@ def analytics(request):
     return render(request, 'calculator/analytics.html', context)
 
 
-def about(request):
-    context = { 'about_page': 'active'}
-    return render(request, 'calculator/about.html', context)
-
-
 def contact(request):
     context = { 'contact_page': 'active'}
     return render(request, 'calculator/contact.html', context)
