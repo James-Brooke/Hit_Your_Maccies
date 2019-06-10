@@ -15,14 +15,12 @@
   <body>
     {% include './navbar.html' %}
     <div class='content-container'>
-      <video class="background-video" 
-             src="{% static 'calculator/images/schnitzel.mp4' %}" 
-             autoplay 
-             loop
-             type="video/mp4"
-             sound="off"
-             ></video>
-      <div class="overlay-div">
+      {% if home_page == 'active' %}
+        {% include './video.html' %}
+        <div class="overlay-div">
+      {% else %}
+        <div class="backgroundimages">
+      {% endif %}
           {% block content %}
           {% endblock %}
       </div>
