@@ -23,15 +23,11 @@ def index(request):
 
     if request.method == 'POST':
         get = False
-
-        print('\n\n-------------------------')
-        print('REQUEST.POST:', request.POST)
-        print('REQUEST.POST.GET:', request.POST.get('protein'))
-        print('\n\n-------------------------')
         form = HowMuchProtein(request.POST)
+        if form.is_valid():
+            protein = float(form.cleaned_data['protein'])
+            category = form.cleaned_data['category']
 
-        protein = float(request.POST['protein'])
-        category = request.POST['category']
         foods = Food.objects.order_by('-pro')
         if category != 'ALL':
             foods = foods.filter(category=category)
@@ -52,10 +48,6 @@ def index(request):
         best.salt *= best.quantity
         best.fbr *= best.quantity
 
-        form = HowMuchProtein(request.POST)
-
-        if form.is_valid():
-            pass #trigger validation
         
     else:
         form = HowMuchProtein()
