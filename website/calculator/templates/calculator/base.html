@@ -15,7 +15,7 @@
   <body>
     {% include './navbar.html' %}
     <div class='content-container'>
-      {% if home_page == 'active' %}
+      {% if home_page == 'active' and get %}
         {% include './video.html' %}
         <div class="overlay-div">
       {% else %}

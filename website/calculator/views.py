@@ -9,6 +9,12 @@ from .forms import HowMuchProtein, AnalyticsCategoryDropDown, AnalyticsMacroDrop
 
 
 def process_food(food, protein_required):
+    """Calculates how many of each item is required to hit requirements.
+    
+    :food: a Food item
+    :requirements: grams of protein required
+    :returns: int: the number of food items required to hit protein_required
+    """
     protein = float(food.pro)
     if protein < 0.01:
         return 0
@@ -20,6 +26,11 @@ def process_food(food, protein_required):
 
 
 def index(request):
+    """Returns the home view.
+    
+    When the request is a GET, the view includes a form.
+    When the request is a POST, the view includes a table of results.
+    """
 
     if request.method == 'POST':
         get = False
@@ -27,6 +38,8 @@ def index(request):
         if form.is_valid():
             protein = float(form.cleaned_data['protein'])
             category = form.cleaned_data['category']
+        else:
+            raise ValueError('InvalidForm')
 
         foods = Food.objects.order_by('-pro')
         if category != 'ALL':
@@ -67,6 +80,7 @@ def index(request):
 
 
 def analytics(request):
+    """Returns analytics view."""
     category_dropdown = AnalyticsCategoryDropDown()
     macro_dropdown = AnalyticsMacroDropDown()
     context = { 'analytics_page': 'active',
@@ -76,11 +90,15 @@ def analytics(request):
 
 
 def contact(request):
+    """Returns contact view."""
     context = { 'contact_page': 'active'}
     return render(request, 'calculator/contact.html', context)
 
-def data(request):
 
+def data(request):
+    """Restful API used by analytics view.
+    
+    Returns JSON of all food items stored in DB."""
     data = serializers.serialize('json', Food.objects.all())
     data = json.loads(data)
     return JsonResponse(data, safe=False)

@@ -132,7 +132,12 @@ table, th, td {
   margin-right: auto;
   margin-top: 1%;
 }
+
 tr:nth-child(even) {background-color: #f2f2f2;}
+tr:nth-child(odd) {background-color: darkgrey;}
+
+
+
 tr:hover {background-color: darkgray;}
 
 table.SummaryTable {
