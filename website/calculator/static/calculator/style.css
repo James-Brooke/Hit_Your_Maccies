@@ -135,10 +135,7 @@ table, th, td {
 
 tr:nth-child(even) {background-color: #f2f2f2;}
 tr:nth-child(odd) {background-color: darkgrey;}
-
-
-
-tr:hover {background-color: darkgray;}
+tr:hover {background-color: #dd1021;}
 
 table.SummaryTable {
   width: 10%;

@@ -1,5 +1,6 @@
 import math
 import json
+import copy
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -8,7 +9,7 @@ from .models import Food
 from .forms import HowMuchProtein, AnalyticsCategoryDropDown, AnalyticsMacroDropDown
 
 
-def process_food(food, protein_required):
+def calculate_quantity(food, protein_required):
     """Calculates how many of each item is required to hit requirements.
     
     :food: a Food item
@@ -24,6 +25,36 @@ def process_food(food, protein_required):
         quantity = math.ceil(protein_required / protein)
     return quantity
 
+def l2_distance(food, protein):
+    return math.sqrt(protein**2 - food.total_protein**2)
+
+def create_food_list(food_manager, category, protein_required):
+
+    if category != 'ALL':
+        foods = food_manager.filter(category=category)
+    else:
+        foods = food_manager.all()
+
+    for food in foods:
+        food.quantity = calculate_quantity(food, protein_required) # calculate how many of this item to hit requirements
+        food.total_protein = food.pro * food.quantity
+
+    food_list = [x for x in foods if x.quantity > 0 and 
+                    ( (protein_required+10) >= x.total_protein)] # remove items with excessive macros
+    food_list = sorted(food_list, key=lambda x: x.total_protein)
+
+    best = copy.deepcopy(food_list[0])
+    best.pro *= best.quantity
+    best.cal *= best.quantity
+    best.fat *= best.quantity
+    best.sfat *= best.quantity
+    best.carb *= best.quantity
+    best.sgr *= best.quantity
+    best.salt *= best.quantity
+    best.fbr *= best.quantity
+
+    return food_list, best
+    
 
 def index(request):
     """Returns the home view.
@@ -31,50 +62,31 @@ def index(request):
     When the request is a GET, the view includes a form.
     When the request is a POST, the view includes a table of results.
     """
+    context = { 'home_page': 'active',
+                'get': True if request.method != 'POST' else False}
 
-    if request.method == 'POST':
-        get = False
+    if not context['get']:
+
+        # Retrieve data from form
         form = HowMuchProtein(request.POST)
         if form.is_valid():
-            protein = float(form.cleaned_data['protein'])
+            protein_required = float(form.cleaned_data['protein'])
             category = form.cleaned_data['category']
         else:
             raise ValueError('InvalidForm')
 
-        foods = Food.objects.order_by('-pro')
-        if category != 'ALL':
-            foods = foods.filter(category=category)
+        # Create django Manager for making querysets
+        food_manager = Food.objects
 
-        foods = list(foods) # force evaluation of queryset to allow extra attributes to be set
-        for food in foods:
-            food.quantity = process_food(food, protein) # calculate how many of this item to hit requirements
-            food.total_protein = food.pro * food.quantity
-        foods[:] = [x for x in foods if (x.quantity * x.pro <= (protein+10)) and x.quantity > 0] # remove items with excessive macros
-        foods[:] = sorted(foods, key=lambda x: x.total_protein)
-        best = foods[0]
-        best.pro *= best.quantity
-        best.cal *= best.quantity
-        best.fat *= best.quantity
-        best.sfat *= best.quantity
-        best.carb *= best.quantity
-        best.sgr *= best.quantity
-        best.salt *= best.quantity
-        best.fbr *= best.quantity
+        # Find list of foods that meet requirements
+        food_list, best = create_food_list(food_manager, category, protein_required)
 
-        
-    else:
-        form = HowMuchProtein()
-        foods = Food.objects.order_by('-cal')[:1]
-        get = True
-
-    context = { 'home_page': 'active',
-                'foods': foods,
-                'form': form,
-                'get': get}
-    if not get:
         context['best'] = best
-        context['protein'] = protein
-    
+        context['protein'] = protein_required
+        context['foods'] = food_list
+
+    else:
+        context['form'] = HowMuchProtein()
 
     return render(request, 'calculator/index.html', context)
 
