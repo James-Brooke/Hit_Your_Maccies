@@ -31,6 +31,11 @@
 
         // filter on category
         data = data.filter(function(d) {return d.fields.category === category;})
+
+        // Sort data by protein
+        data = data.sort(function(x, y){
+            return d3.descending(x.fields.pro, y.fields.pro)
+        });
     
         // define the ranges
         var x = d3.scaleBand()
@@ -110,6 +115,7 @@
         if (error) {
             throw error;
         };
+
 
         drawGraph(data);
 

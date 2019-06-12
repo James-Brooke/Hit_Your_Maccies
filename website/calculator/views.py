@@ -36,11 +36,13 @@ def create_food_list(food_manager, category, protein_required):
         foods = food_manager.all()
 
     for food in foods:
-        food.quantity = calculate_quantity(food, protein_required) # calculate how many of this item to hit requirements
+        # calculate how many of this item required to hit macros
+        food.quantity = calculate_quantity(food, protein_required)
         food.total_protein = food.pro * food.quantity
 
+    # remove items with excessive macros
     food_list = [x for x in foods if x.quantity > 0 and 
-                    ( (protein_required+10) >= x.total_protein)] # remove items with excessive macros
+                    ( (protein_required+10) >= x.total_protein)] 
     food_list = sorted(food_list, key=lambda x: x.total_protein)
 
     best = copy.deepcopy(food_list[0])
@@ -75,11 +77,8 @@ def index(request):
         else:
             raise ValueError('InvalidForm')
 
-        # Create django Manager for making querysets
-        food_manager = Food.objects
-
         # Find list of foods that meet requirements
-        food_list, best = create_food_list(food_manager, category, protein_required)
+        food_list, best = create_food_list(Food.objects, category, protein_required)
 
         context['best'] = best
         context['protein'] = protein_required
