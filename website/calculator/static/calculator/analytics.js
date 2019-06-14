@@ -32,11 +32,24 @@
         // filter on category
         data = data.filter(function(d) {return d.fields.category === category;})
 
-        // Sort data by protein
-        data = data.sort(function(x, y){
-            return d3.descending(x.fields.pro, y.fields.pro)
-        });
-    
+        // remove data with 0 macro to prevent empty bars
+        if (macro == 'pro'){
+            data = data.filter(function(d) {return d.fields.pro > 0})
+        } else {
+            data = data.filter(function(d) {return d.fields.cal > 0})
+        };
+
+        // Sort data by macro choice
+        if (macro == 'pro'){
+            data = data.sort(function(x, y){
+                return d3.descending(x.fields.pro, y.fields.pro)
+            });
+        } else {
+            data = data.sort(function(x, y){
+                return d3.descending(x.fields.cal, y.fields.cal)
+            });
+        };
+
         // define the ranges
         var x = d3.scaleBand()
             .range([0, width])
