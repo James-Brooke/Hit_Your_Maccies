@@ -11,7 +11,7 @@
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("class", "border rounded")
-        .style("background-color", 'White')
+        .style("background-color", 'Gainsboro')
         .append("g")
         .attr("transform", 
             "translate(" + margin.left + "," + margin.top + ")");
@@ -83,6 +83,7 @@
             .attr("class", "yaxis")
             .call(yAxis);
 
+
         // Define the div for the tooltip
         var tooltip = d3.select("#GraphHolder").append("div")	
             .attr("class", "tooltip")				
@@ -95,22 +96,32 @@
             .attr("class", "bar")
             .attr("x", function(d) { return x(d.fields.name); })
             .attr("width", x.bandwidth())
+            // define mouseover effects
             .on("mouseover", function(d) {
                 d3.select(this)
-                .style("fill", "red");
+                    .style("fill", "#dd1021");
+                svg.append("line")
+                    .style("stroke", "#dd1021")
+                    .style("stroke-width", 2)
+                    .attr("class", "hover_line")
+                    .attr("x1", 0)
+                    .attr("y1", height - this.height.baseVal.value)
+                    .attr("x2", width)
+                    .attr("y2", height - this.height.baseVal.value);
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);
                 tooltip .html(d.fields.name + "<br/>" + d.fields.cal + " calories" + "<br/>" + d.fields.pro + "g protein")	
-                .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "px")
+                    .style("left", (d3.event.pageX) + "px")		
+                    .style("top", (d3.event.pageY - 28) + "px")
             })         
             .on("mouseout", function(d) {
                 d3.select(this)
-                .style("fill", "black");
+                    .style("fill", "black");
+                svg.selectAll('.hover_line').remove();
                 tooltip.transition()		
-                .duration(500)		
-                .style("opacity", 0);	
+                    .duration(500)		
+                    .style("opacity", 0);	
             });
 
         if (macro==='cal'){
