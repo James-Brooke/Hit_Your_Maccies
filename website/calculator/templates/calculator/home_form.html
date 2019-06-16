@@ -1,6 +1,6 @@
 <form class="flex-form home-form" action="{% url 'home' %}" method="post">{% csrf_token %}
 
-    <input type="number" name="protein" placeholder='How many grams of protein do you need?'>
+    <input required type="number" name="protein" placeholder='How many grams of protein do you need?'>
 
     <select required class="category" name="category">
         <option value="" disabled selected hidden>Food category</option>
