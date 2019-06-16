@@ -10,8 +10,9 @@
     var svg = d3.select("#GraphHolder").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .attr("class", "border rounded")
         .style("background-color", 'Gainsboro')
+        .style("border", "1px solid black")
+        .style("border-radius", ".25rem")
         .append("g")
         .attr("transform", 
             "translate(" + margin.left + "," + margin.top + ")");
@@ -23,6 +24,7 @@
             svg.selectAll(".bar").remove();
             svg.selectAll('.yaxis').remove();
             svg.selectAll('.xaxis').remove();
+            svg.selectAll('.grid').remove();            
         };
 
         // get values from dropdowns
@@ -66,9 +68,9 @@
         };
 
         // define the axes
-        var xAxis = d3.axisBottom(x);
-        var yAxis = d3.axisLeft(y);
-
+        var xAxis = d3.axisBottom(x).tickSizeOuter(0);
+        var yAxis = d3.axisLeft(y).tickSizeOuter(0);
+        
         // add the axes
         svg.append("g")
             .attr("class", "xaxis")
@@ -83,7 +85,29 @@
             .attr("class", "yaxis")
             .call(yAxis);
 
+        // add a grid to the y axis    
+        svg.append("g")
+            .attr("class", "grid")
+            .call(d3.axisLeft(y)
+                    .tickSize(-width)
+                    .tickFormat("")
+                    .tickSizeOuter(0)
+            );
 
+        // draw box around plot
+        svg.append("line")
+            .attr("class", "plot_border")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", width)
+            .attr("y2", 0);
+        svg.append("line")
+            .attr("class", "plot_border")
+            .attr("x1", width)
+            .attr("y1", 0)
+            .attr("x2", width)
+            .attr("y2", height);
+        
         // Define the div for the tooltip
         var tooltip = d3.select("#GraphHolder").append("div")	
             .attr("class", "tooltip")				
@@ -96,6 +120,8 @@
             .attr("class", "bar")
             .attr("x", function(d) { return x(d.fields.name); })
             .attr("width", x.bandwidth())
+            .style("fill", "#ffc300")
+            .style("stroke", "black")
             // define mouseover effects
             .on("mouseover", function(d) {
                 d3.select(this)
@@ -111,13 +137,13 @@
                 tooltip.transition()		
                     .duration(200)		
                     .style("opacity", .9);
-                tooltip .html(d.fields.name + "<br/>" + d.fields.cal + " calories" + "<br/>" + d.fields.pro + "g protein")	
+                tooltip.html(d.fields.name + "<br/>" + d.fields.cal + " calories" + "<br/>" + d.fields.pro + "g protein")	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px")
             })         
             .on("mouseout", function(d) {
                 d3.select(this)
-                    .style("fill", "black");
+                    .style("fill", "#ffc300");
                 svg.selectAll('.hover_line').remove();
                 tooltip.transition()		
                     .duration(500)		
@@ -126,13 +152,14 @@
 
         if (macro==='cal'){
             svg.selectAll(".bar")
-            .attr("y", function(d) { return y(d.fields.cal); })
-            .attr("height", function(d) { return height - y(d.fields.cal); })
+                .attr("y", function(d) { return y(d.fields.cal); })
+                .attr("height", function(d) { return height - y(d.fields.cal); })
             } else {
                 svg.selectAll(".bar")
                 .attr("y", function(d) { return y(d.fields.pro); })
                 .attr("height", function(d) { return height - y(d.fields.pro); })
             }
+
         };
 
     d3.json("/data", function(error, data) {

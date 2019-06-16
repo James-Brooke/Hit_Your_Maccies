@@ -175,3 +175,15 @@ div.tooltip {
   border-radius: 8px;			
   pointer-events: none;			
 }
+
+.grid .tick line{
+  stroke: darkgray;
+  stroke-width: 1px !important;
+  shape-rendering: crispEdges;
+}
+
+.plot_border {
+  stroke: black;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
