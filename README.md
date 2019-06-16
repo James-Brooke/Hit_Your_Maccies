@@ -8,4 +8,4 @@ A django-based website that makes suggestions for food based on your nutrional r
 
 ![alt text](/static/Analytics.png)
 
-Data was obtained by scraping the Mcdonalds website (scraper available in /webscrapers. Secondary data acquired from here:  https://github.com/pffy/data-mcdonalds-nutritionfacts. More restaurants to come soon. 
+Data was obtained by scraping the Mcdonalds website (scraper available in /webscrapers). Secondary data acquired from here:  https://github.com/pffy/data-mcdonalds-nutritionfacts. More restaurants to come soon. 
